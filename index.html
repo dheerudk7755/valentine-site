@@ -23,7 +23,6 @@
       overflow: hidden;
     }
 
-    /* Floating hearts */
     .heart {
       position: absolute;
       bottom: -20px;
@@ -34,10 +33,6 @@
     }
 
     @keyframes floatUp {
-      from {
-        transform: translateY(0);
-        opacity: 1;
-      }
       to {
         transform: translateY(-110vh);
         opacity: 0;
@@ -96,7 +91,6 @@
       display: none;
     }
 
-    /* Hidden note */
     .secret {
       position: absolute;
       bottom: 15px;
@@ -104,7 +98,6 @@
       font-size: 20px;
       cursor: pointer;
       opacity: 0.6;
-      z-index: 3;
     }
 
     .note {
@@ -118,7 +111,6 @@
       font-size: 0.9rem;
       color: #880e4f;
       box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-      z-index: 3;
     }
   </style>
 </head>
@@ -138,7 +130,6 @@
     </div>
   </div>
 
-  <!-- Hidden note -->
   <div class="secret" id="secret">💌</div>
   <div class="note" id="note">P.S. I was nervous making this.</div>
 
@@ -150,7 +141,6 @@
     const note = document.getElementById("note");
     const box = document.getElementById("buttonBox");
 
-    // NO button moves away on hover
     noBtn.addEventListener("mouseenter", () => {
       const maxX = box.clientWidth - noBtn.offsetWidth;
       const maxY = box.clientHeight - noBtn.offsetHeight;
@@ -158,40 +148,30 @@
       const x = Math.random() * maxX;
       const y = Math.random() * maxY;
 
+      noBtn.style.right = "auto";
+      noBtn.style.bottom = "auto";
       noBtn.style.left = x + "px";
       noBtn.style.top = y + "px";
     });
 
-    // YES button click
     yesBtn.addEventListener("click", () => {
       message.style.display = "block";
       yesBtn.style.display = "none";
       noBtn.style.display = "none";
-      burstHearts();
     });
 
-    // Floating hearts
     function createHeart() {
       const heart = document.createElement("div");
       heart.className = "heart";
-      heart.innerText = "❤️";
+      heart.textContent = "❤️";
       heart.style.left = Math.random() * 100 + "vw";
       heart.style.animationDuration = 6 + Math.random() * 6 + "s";
       document.body.appendChild(heart);
-
       setTimeout(() => heart.remove(), 12000);
     }
 
     setInterval(createHeart, 700);
 
-    // Heart burst
-    function burstHearts() {
-      for (let i = 0; i < 20; i++) {
-        setTimeout(createHeart, i * 100);
-      }
-    }
-
-    // Hidden note toggle
     secret.addEventListener("click", () => {
       note.style.display = note.style.display === "block" ? "none" : "block";
     });
