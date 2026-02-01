@@ -5,7 +5,6 @@
   <title>Be My Valentine 💖</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <!-- Google Font -->
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&display=swap" rel="stylesheet">
 
   <style>
@@ -24,13 +23,33 @@
       overflow: hidden;
     }
 
+    /* Floating hearts */
+    .heart {
+      position: absolute;
+      bottom: -20px;
+      font-size: 18px;
+      color: rgba(233, 30, 99, 0.4);
+      animation: floatUp 10s linear infinite;
+    }
+
+    @keyframes floatUp {
+      from {
+        transform: translateY(0);
+        opacity: 1;
+      }
+      to {
+        transform: translateY(-110vh);
+        opacity: 0;
+      }
+    }
+
     .card {
       background: rgba(255, 255, 255, 0.9);
       padding: 50px 60px;
       border-radius: 24px;
       text-align: center;
       box-shadow: 0 20px 40px rgba(0,0,0,0.15);
-      max-width: 90%;
+      z-index: 2;
     }
 
     h1 {
@@ -50,7 +69,7 @@
       border-radius: 999px;
       border: none;
       cursor: pointer;
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      transition: transform 0.2s ease;
       position: absolute;
     }
 
@@ -59,11 +78,6 @@
       color: white;
       left: 50%;
       transform: translateX(-120%);
-      box-shadow: 0 8px 20px rgba(233, 30, 99, 0.4);
-    }
-
-    #yesBtn:hover {
-      transform: translateX(-120%) scale(1.05);
     }
 
     #noBtn {
@@ -79,10 +93,34 @@
       color: #ad1457;
       display: none;
     }
+
+    /* Hidden note */
+    .secret {
+      position: absolute;
+      bottom: 15px;
+      right: 20px;
+      font-size: 20px;
+      cursor: pointer;
+      opacity: 0.6;
+    }
+
+    .note {
+      display: none;
+      position: absolute;
+      bottom: 60px;
+      right: 20px;
+      background: white;
+      padding: 12px 16px;
+      border-radius: 12px;
+      font-size: 0.9rem;
+      color: #880e4f;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    }
   </style>
 </head>
 
 <body>
+
   <div class="card">
     <h1>Will you be my Valentine? 💖</h1>
 
@@ -92,26 +130,16 @@
     </div>
 
     <div class="message" id="message">
-      Yay! 💕 I knew you’d say yes 😘
+      Yay! 💕 I wanted to ask you in a way you’d never forget.
     </div>
   </div>
+
+  <!-- Hidden note -->
+  <div class="secret" id="secret">💌</div>
+  <div class="note" id="note">P.S. I was nervous making this.</div>
 
   <script>
     const noBtn = document.getElementById("noBtn");
     const yesBtn = document.getElementById("yesBtn");
     const message = document.getElementById("message");
-
-    noBtn.addEventListener("mouseenter", () => {
-      const x = Math.random() * 300 - 150;
-      const y = Math.random() * 120 - 60;
-      noBtn.style.transform = `translate(${x}px, ${y}px)`;
-    });
-
-    yesBtn.addEventListener("click", () => {
-      message.style.display = "block";
-      yesBtn.style.display = "none";
-      noBtn.style.display = "none";
-    });
-  </script>
-</body>
-</html>
+    const secret = document.ge
