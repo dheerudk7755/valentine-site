@@ -30,6 +30,7 @@
       font-size: 18px;
       color: rgba(233, 30, 99, 0.4);
       animation: floatUp 10s linear infinite;
+      pointer-events: none;
     }
 
     @keyframes floatUp {
@@ -61,6 +62,8 @@
     .buttons {
       position: relative;
       height: 120px;
+      width: 300px;
+      margin: 0 auto;
     }
 
     button {
@@ -69,22 +72,21 @@
       border-radius: 999px;
       border: none;
       cursor: pointer;
-      transition: transform 0.2s ease;
       position: absolute;
     }
 
     #yesBtn {
       background: #e91e63;
       color: white;
-      left: 50%;
-      transform: translateX(-120%);
+      left: 0;
+      bottom: 0;
     }
 
     #noBtn {
       background: #f8bbd0;
       color: #880e4f;
-      left: 50%;
-      transform: translateX(20%);
+      right: 0;
+      bottom: 0;
     }
 
     .message {
@@ -102,6 +104,7 @@
       font-size: 20px;
       cursor: pointer;
       opacity: 0.6;
+      z-index: 3;
     }
 
     .note {
@@ -115,6 +118,7 @@
       font-size: 0.9rem;
       color: #880e4f;
       box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+      z-index: 3;
     }
   </style>
 </head>
@@ -122,9 +126,9 @@
 <body>
 
   <div class="card">
-    <h1>Hello Aishuu, Will you be my Valentine? 💖</h1>
+    <h1>Hello Aishuu, will you be my Valentine? 💖</h1>
 
-    <div class="buttons">
+    <div class="buttons" id="buttonBox">
       <button id="yesBtn">Yes ❤️</button>
       <button id="noBtn">No 💔</button>
     </div>
@@ -142,5 +146,55 @@
     const noBtn = document.getElementById("noBtn");
     const yesBtn = document.getElementById("yesBtn");
     const message = document.getElementById("message");
-    const secret = document.ge
+    const secret = document.getElementById("secret");
+    const note = document.getElementById("note");
+    const box = document.getElementById("buttonBox");
 
+    // NO button moves away on hover
+    noBtn.addEventListener("mouseenter", () => {
+      const maxX = box.clientWidth - noBtn.offsetWidth;
+      const maxY = box.clientHeight - noBtn.offsetHeight;
+
+      const x = Math.random() * maxX;
+      const y = Math.random() * maxY;
+
+      noBtn.style.left = x + "px";
+      noBtn.style.top = y + "px";
+    });
+
+    // YES button click
+    yesBtn.addEventListener("click", () => {
+      message.style.display = "block";
+      yesBtn.style.display = "none";
+      noBtn.style.display = "none";
+      burstHearts();
+    });
+
+    // Floating hearts
+    function createHeart() {
+      const heart = document.createElement("div");
+      heart.className = "heart";
+      heart.innerText = "❤️";
+      heart.style.left = Math.random() * 100 + "vw";
+      heart.style.animationDuration = 6 + Math.random() * 6 + "s";
+      document.body.appendChild(heart);
+
+      setTimeout(() => heart.remove(), 12000);
+    }
+
+    setInterval(createHeart, 700);
+
+    // Heart burst
+    function burstHearts() {
+      for (let i = 0; i < 20; i++) {
+        setTimeout(createHeart, i * 100);
+      }
+    }
+
+    // Hidden note toggle
+    secret.addEventListener("click", () => {
+      note.style.display = note.style.display === "block" ? "none" : "block";
+    });
+  </script>
+</body>
+</html>
